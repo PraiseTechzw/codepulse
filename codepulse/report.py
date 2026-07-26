@@ -37,9 +37,7 @@ def render_terminal_report(
     console = console or Console()
     grade = grade_for_score(overall)
 
-    header = Text(
-        f"{project_name} — Health Score: {overall}/100 ({grade})", style="bold"
-    )
+    header = Text(f"{project_name} — Health Score: {overall}/100 ({grade})", style="bold")
     console.print(Panel(header, style=_score_color(overall)))
 
     table = Table(show_header=True, header_style="bold")
@@ -63,9 +61,7 @@ def render_terminal_report(
 
 def _summarize_details(category: str, details: dict) -> str:
     if category == "structure":
-        langs = ", ".join(
-            f"{k} ({v})" for k, v in list(details.get("languages", {}).items())[:3]
-        )
+        langs = ", ".join(f"{k} ({v})" for k, v in list(details.get("languages", {}).items())[:3])
         large = len(details.get("large_files", []))
         return (
             f"{details.get('total_code_files', 0)} files, {details.get('total_lines', 0)} lines. "

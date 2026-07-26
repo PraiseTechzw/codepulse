@@ -34,17 +34,13 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Output raw JSON instead of a formatted report",
     )
-    parser.add_argument(
-        "--markdown-out", metavar="FILE", help="Write a Markdown report to FILE"
-    )
+    parser.add_argument("--markdown-out", metavar="FILE", help="Write a Markdown report to FILE")
     parser.add_argument(
         "--no-llm",
         action="store_true",
         help="Skip the optional OpenRouter-powered summary",
     )
-    parser.add_argument(
-        "--version", action="version", version=f"codepulse {__version__}"
-    )
+    parser.add_argument("--version", action="version", version=f"codepulse {__version__}")
     parser.add_argument(
         "--commit-msg",
         metavar="MESSAGE",
@@ -101,13 +97,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.model:
             model_name = args.model
         else:
-            model_name = os.environ.get(
-                "OPENROUTER_MODEL", "cohere/north-mini-code:free"
-            )
+            model_name = os.environ.get("OPENROUTER_MODEL", "cohere/north-mini-code:free")
 
-        if model_name not in FREE_MODELS and model_name != os.environ.get(
-            "OPENROUTER_MODEL"
-        ):
+        if model_name not in FREE_MODELS and model_name != os.environ.get("OPENROUTER_MODEL"):
             console.print(
                 f"[yellow]Model '{model_name}' is not in the built-in free list; attempting anyway.[/]"
             )
@@ -131,14 +123,10 @@ def main(argv: list[str] | None = None) -> int:
         }
         print(json_module.dumps(payload, indent=2, default=str))
     else:
-        render_terminal_report(
-            root.name, overall, category_results, llm_summary, console
-        )
+        render_terminal_report(root.name, overall, category_results, llm_summary, console)
 
     if args.markdown_out:
-        markdown = render_markdown_report(
-            root.name, overall, category_results, llm_summary
-        )
+        markdown = render_markdown_report(root.name, overall, category_results, llm_summary)
         Path(args.markdown_out).write_text(markdown, encoding="utf-8")
         console.print(f"\n[dim]Markdown report written to {args.markdown_out}[/]")
 
