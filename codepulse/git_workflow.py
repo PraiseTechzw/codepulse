@@ -8,9 +8,7 @@ from pathlib import Path
 from typing import Callable
 
 
-def build_commit_message(
-    task_summary: str | None = None, context: str | None = None
-) -> str:
+def build_commit_message(task_summary: str | None = None, context: str | None = None) -> str:
     """Build a conventional commit message from task context when available."""
 
     if context:
@@ -42,9 +40,7 @@ def run_git_workflow(
     if runner is None:
 
         def default_runner(cmd: Sequence[str]) -> subprocess.CompletedProcess[str]:
-            return subprocess.run(
-                cmd, cwd=repo, capture_output=True, text=True, check=False
-            )
+            return subprocess.run(cmd, cwd=repo, capture_output=True, text=True, check=False)
 
         runner = default_runner
 

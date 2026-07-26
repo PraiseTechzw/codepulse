@@ -42,18 +42,14 @@ def get_llm_summary(
     if not api_key:
         return None
 
-    findings = {
-        category: result["details"] for category, result in category_results.items()
-    }
+    findings = {category: result["details"] for category, result in category_results.items()}
     prompt = (
         f"Project: {project_name}\n"
         f"Overall health score: {overall_score}/100\n\n"
         f"Category findings:\n{json.dumps(findings, indent=2, default=str)}"
     )
 
-    resolved_model = model_name or os.environ.get(
-        "OPENROUTER_MODEL", "cohere/north-mini-code:free"
-    )
+    resolved_model = model_name or os.environ.get("OPENROUTER_MODEL", "cohere/north-mini-code:free")
     payload = {
         "model": resolved_model,
         "messages": [
@@ -76,9 +72,7 @@ def get_llm_summary(
     try:
         with urlopen(request, timeout=20) as response:
             body = json.loads(response.read().decode("utf-8"))
-    except (
-        Exception
-    ) as exc:  # noqa: BLE001 - surface any API error as text, don't crash the scan
+    except Exception as exc:  # noqa: BLE001 - surface any API error as text, don't crash the scan
         return f"LLM summary unavailable ({exc.__class__.__name__}: {exc})"
 
     try:

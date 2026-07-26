@@ -23,9 +23,7 @@ def test_get_llm_summary_uses_openrouter(monkeypatch):
         captured["url"] = request.full_url
         captured["headers"] = dict(request.headers)
         captured["data"] = json.loads(request.data.decode("utf-8"))
-        return FakeResponse(
-            {"choices": [{"message": {"content": "OpenRouter summary"}}]}
-        )
+        return FakeResponse({"choices": [{"message": {"content": "OpenRouter summary"}}]})
 
     monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
     monkeypatch.setattr("codepulse.llm.urlopen", fake_urlopen)
