@@ -1,5 +1,4 @@
 import subprocess
-from pathlib import Path
 
 from codepulse.git_workflow import build_commit_message, run_git_workflow
 

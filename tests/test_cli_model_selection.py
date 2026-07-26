@@ -1,5 +1,3 @@
-import os
-
 from codepulse.cli import build_parser
 
 
