@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import os
 import subprocess
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Callable, Sequence
+from typing import Callable
 
 
 def build_commit_message(
@@ -40,9 +40,13 @@ def run_git_workflow(
         return False
 
     if runner is None:
-        runner = lambda cmd: subprocess.run(
-            cmd, cwd=repo, capture_output=True, text=True, check=False
-        )
+
+        def default_runner(cmd: Sequence[str]) -> subprocess.CompletedProcess[str]:
+            return subprocess.run(
+                cmd, cwd=repo, capture_output=True, text=True, check=False
+            )
+
+        runner = default_runner
 
     commit_message = message or build_commit_message()
 
